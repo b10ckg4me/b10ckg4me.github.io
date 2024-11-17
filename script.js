@@ -110,6 +110,9 @@ async function playGame(){
 
     // I verify the bet if it is at least 10000
     if(userBet >= 10000){
+        // Drop warning
+        document.getElementById("warning").innerHTML = '';
+
         const userChoice = document.getElementById("user_choice").value;
         const amountToSend = ethers.utils.parseUnits(userBet, "gwei"); // 0.01 ETH - Adjust as needed
 
