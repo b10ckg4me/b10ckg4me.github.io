@@ -124,14 +124,13 @@ async function playGame(){
             //Consider more user-friendly error handling, for example display an error message
         }
     }else{
-        // If bet is less that 10000, the following message will alert
+        // If bet is less than 10000, the following message will alert
         let innerHtml =
             "<div class='alert alert-warning pb-1 mt-3'>" +
             "<blockquote>" +
             "Your bet is <strong>" + userBet + "</strong> Gwei, though it should be <strong>at least 10000 Gwei</strong>" +
             "</blockquote>" +
             "</div>";
-
         document.getElementById("warning").innerHTML = innerHtml;
     }
 }
