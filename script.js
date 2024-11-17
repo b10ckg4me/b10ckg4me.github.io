@@ -4,27 +4,89 @@ const contractAddress = "0xc4354D035C62903bA618BaBF2d4776853689A495";
 // Указываем ABI (Application Binary Interface) контракта
 const abi = [
     {
-        "inputs":[],
-        "stateMutability":"nonpayable",
-        "type":"constructor"
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
     },
     {
-        "anonymous":false,
-        "inputs":[
-            {"indexed":true,"internalType":"address","name":"player","type":"address"},
-            {"indexed":false,"internalType":"string","name":"playerMove","type":"string"},
-            {"indexed":false,"internalType":"string","name":"contractMove","type":"string"},
-            {"indexed":false,"internalType":"bool","name":"win","type":"bool"},
-            {"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}
+        "anonymous": false,
+        "inputs": [
+            {"indexed": true, "internalType": "address", "name": "player", "type": "address"},
+            {"indexed": false, "internalType": "string", "name": "playerMove", "type": "string"},
+            {"indexed": false, "internalType": "string", "name": "contractMove", "type": "string"},
+            {"indexed": false, "internalType": "bool", "name": "win", "type": "bool"},
+            {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
         ],
-        "name":"GameResult",
-        "type":"event"
+        "name": "GameResult",
+        "type": "event"
     },
     {
-        "inputs":[],
-        "name":"getContractBalance",
-        "outputs":[
-            {"internalType":"uint256", "name":"", "type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getResultsHistory","outputs":[{"components":[{"internalType":"string","name":"userMove","type":"string"},{"internalType":"string","name":"contractMove","type":"string"},{"internalType":"string","name":"result","type":"string"}],"internalType":"struct RockPaperScissors.Result[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"minBet","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint8","name":"playerMoveCode","type":"uint8"}],"name":"playGame","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"withdrawFunds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+        "inputs": [],
+        "name": "getContractBalance",
+        "outputs": [
+            {"internalType": "uint256", "name": "", "type": "uint256"}
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getResultsHistory",
+        "outputs": [
+            {
+                "components": [
+                    {"internalType": "string", "name": "userMove", "type": "string"},
+                    {"internalType": "string", "name": "contractMove", "type": "string"},
+                    {"internalType": "string", "name": "result", "type": "string"}
+                ],
+                "internalType": "struct RockPaperScissors.Result[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+            ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "minBet",
+        "outputs": [
+                {"internalType": "uint256", "name": "", "type": "uint256"}
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {"internalType": "address", "name": "", "type": "address"}
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {"internalType": "uint8", "name": "playerMoveCode", "type": "uint8"}
+        ],
+        "name": "playGame",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "withdrawFunds",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "stateMutability": "payable",
+        "type": "receive"
+    }
+];
+
 // Подключаемся к web3 провайдеру (метамаск)
 const provider = new ethers.providers.Web3Provider(window.ethereum, 97);
 let signer;
@@ -46,7 +108,8 @@ async function playGame(){
 
     const userBet = document.getElementById("user_bet").value;
 
-    if(userBet > 10000){
+    // I verify the bet if it is at least 10000
+    if(userBet >= 10000){
         const userChoice = document.getElementById("user_choice").value;
         const amountToSend = ethers.utils.parseUnits(userBet, "gwei"); // 0.01 ETH - Adjust as needed
 
@@ -61,6 +124,7 @@ async function playGame(){
             //Consider more user-friendly error handling, for example display an error message
         }
     }else{
+        // If bet is less that 10000, the following message will alert
         let innerHtml =
             "<div class='alert alert-warning pb-1 mt-3'>" +
             "<blockquote>" +
@@ -70,8 +134,6 @@ async function playGame(){
 
         document.getElementById("warning").innerHTML = innerHtml;
     }
-
-
 }
 
 async function getHistory() {
@@ -105,5 +167,4 @@ async function getHistory() {
         "</table>";
 
     document.getElementById("history").innerHTML = pastedResult;
-    
 }
