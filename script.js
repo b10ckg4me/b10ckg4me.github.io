@@ -153,7 +153,6 @@ async function getHistory() {
         "<tbody>";
 
     for (let i = 0; i < results.length; i++) {
-
         pastedResult +=
             "<tr>" +
             "<td>" + (i+1) + "</td>" +
